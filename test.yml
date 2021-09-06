@@ -1,0 +1,31 @@
+name: breeze test demo
+#on: [push, pull_request]
+env:
+  DOCKER_REG: registry.api.weibo.com/weibo_rd_if/breeze
+  REG: registry.api.weibo.com
+on:
+  push:
+    branches: [main,dev]
+  schedule:
+    - cron:  '30 4,6,8,10,12,14 * * *'
+    #- cron:  '30 10/2 * * *' 
+jobs:
+
+   runs-on: ubuntu-latest
+  steps:
+  - name: 'Checkout codes'
+    uses: actions/checkout@v2
+  - name: Dump GitHub context
+    env:
+      GITHUB_CONTEXT: ${{ toJSON(github) }}
+    run: 
+      echo "${{ github.event.commits[0].id }}"
+  - name: 'docker login to harbor'
+    run:
+      echo "${{ secrets.DOCKER_PASSWORD }}" | docker login $REG -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin 
+  - name: 'Build the Docker image'
+      run:
+        docker build -t  $DOCKER_REG:${{ github.event.commits[0].id }} .
+  - name: 'Push docker image'
+      run: 
+        docker push $DOCKER_REG:${{ github.event.commits[0].id }}
