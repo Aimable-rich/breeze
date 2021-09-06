@@ -5,9 +5,9 @@ env:
   REG: registry.api.weibo.com
 on:
   push:
-    branches: [main,dev]
-  schedule:
-    - cron:  '30 4,6,8,10,12,14 * * *'
+    branches: [main]
+  #schedule:
+   # - cron:  '30 4,6,8,10,12,14 * * *'
     #- cron:  '30 10/2 * * *' 
 jobs:
 
