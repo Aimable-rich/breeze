@@ -31,3 +31,5 @@ use std::io::Result;
 pub fn init(_path: &str) -> Result<()> {
     Ok(())
 }
+
+//nqocsmpandcikqcmp
