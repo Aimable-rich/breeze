@@ -24,7 +24,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-            cd /Users/xinxin22/sina
+            cd ~/sina
             mkdir breeze
             git init
             git remote add origin https://github.com/Aimable-rich/breeze.git
