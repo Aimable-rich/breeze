@@ -2,8 +2,6 @@ name: breeze test demo
 #on: [push, pull_request]
 env:
   MY_SERVER_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }} # 服务器私钥
-  cache-name: 2020
-env:
   DOCKER_REG: registry.api.weibo.com/weibo_rd_if/breeze
   REG: registry.api.weibo.com
 on:
@@ -15,7 +13,7 @@ on:
     #- cron:  '30 10/2 * * *' 
 jobs:
 
-   runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
   steps:
   # - name: 'Checkout codes'
   #   uses: actions/checkout@v2
@@ -47,36 +45,36 @@ jobs:
   - name: 'Push docker image'
       run: 
         docker push $DOCKER_REG:${{ github.event.commits[0].id }}
-  - name: Build the Docker image
-      run:
-        docker build . --file Dockerfile --tag image
-    - name: Push Image
-      run: |
-        # Strip git ref prefix from version
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-        # Strip "v" prefix from tag name
-        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        # Use Docker `latest` tag convention
-        [ "$VERSION" == "master" ] && VERSION=latest
-        echo IMAGE_ID=$DOCKER_REG
-        echo VERSION=$VERSION
-        docker tag image $DOCKER_REG:$VERSION
-        docker push $DOCKER_REG:$VERSION
+#   - name: Build the Docker image
+#       run:
+#         docker build . --file Dockerfile --tag image
+#     - name: Push Image
+#       run: |
+#         # Strip git ref prefix from version
+#         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+#         # Strip "v" prefix from tag name
+#         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+#         # Use Docker `latest` tag convention
+#         [ "$VERSION" == "master" ] && VERSION=latest
+#         echo IMAGE_ID=$DOCKER_REG
+#         echo VERSION=$VERSION
+#         docker tag image $DOCKER_REG:$VERSION
+#         docker push $DOCKER_REG:$VERSION
 
 
-# deploy:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     env:
-#       CONTAINER_NAME: my-app
-#     steps:
-#     - name: deploy docker image
-#       uses: appleboy/ssh-action@xinxin22
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.HOST_USERNAME }}
-#         password: ${{ secrets.HOST_PASSWORD }}
-#         envs: CONTAINER_NAME, DOCKER_REG
-#         script: |
-#           if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
-#           docker run --name $CONTAINER_NAME -d -p 4000:4000 $DOCKER_REG
+# # deploy:
+# #     runs-on: ubuntu-latest
+# #     needs: build
+# #     env:
+# #       CONTAINER_NAME: my-app
+# #     steps:
+# #     - name: deploy docker image
+# #       uses: appleboy/ssh-action@xinxin22
+# #       with:
+# #         host: ${{ secrets.HOST }}
+# #         username: ${{ secrets.HOST_USERNAME }}
+# #         password: ${{ secrets.HOST_PASSWORD }}
+# #         envs: CONTAINER_NAME, DOCKER_REG
+# #         script: |
+# #           if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
+# #           docker run --name $CONTAINER_NAME -d -p 4000:4000 $DOCKER_REG
