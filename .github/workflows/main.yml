@@ -14,7 +14,8 @@ on:
     - cron: '30 10/2 * * *' 
 jobs:
   build: 
-    runs-on: macos-11
+   # runs-on: macos-11
+    runs-on: ubuntu-latest
     steps: 
     # - name: 'Checkout codes'
     #   uses: actions/checkout@v2
