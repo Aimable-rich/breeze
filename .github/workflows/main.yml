@@ -9,13 +9,23 @@ on:
     branches:
       - main    
   schedule:
+   # - cron:  '30 4,6,8,10,12,14 * * *'
     - cron: '30 10/2 * * *' 
 jobs:
   build: 
-    runs-on: ubuntu-latest
+    runs-on: macos-11
     steps: 
-  # - name: 'Checkout codes'
-  #   uses: actions/checkout@v2
+    - name: 'Checkout codes'
+      uses: actions/checkout@v2
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@v2.0.8
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
+        REMOTE_HOST: '10.222.101.19'
+        REMOTE_USER: 'xinxin22'
+        SOURCE: ''
+        TARGET: '~/sina'
+        RGS: '-avzr --delete'
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master
       with: 
@@ -23,17 +33,20 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: | 
-          cd ~/sina
-          mkdir breeze
-          git init
-          git remote add origin https://github.com/Aimable-rich/breeze.git
-          git checkout main
-          git pull origin main
+        script: |
+            cargo build 
+        # script: | 
+        #   cargo build
+        #   cd ~/sina
+        #   mkdir breeze
+        #   git init
+        #   git remote add origin https://github.com/Aimable-rich/breeze.git
+        #   git checkout main
+        #   git pull origin main
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: 
+        run: 
           echo "${{ github.event.commits[0].id }}"
     - name: 'docker login to harbor'
       run:
