@@ -1,6 +1,9 @@
 name: breeze test demo
 #on: [push, pull_request]
 env:
+  MY_SERVER_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }} # 服务器私钥
+  cache-name: 2020
+env:
   DOCKER_REG: registry.api.weibo.com/weibo_rd_if/breeze
   REG: registry.api.weibo.com
 on:
@@ -17,7 +20,7 @@ jobs:
   # - name: 'Checkout codes'
   #   uses: actions/checkout@v2
   - name: executing remote ssh commands using password
-    uses: appleboy/ssh-action@master
+    uses: appleboy/ssh-action@main
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
@@ -61,19 +64,19 @@ jobs:
         docker push $DOCKER_REG:$VERSION
 
 
-deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    env:
-      CONTAINER_NAME: my-app
-    steps:
-    - name: deploy docker image
-      uses: appleboy/ssh-action@xinxin22
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.HOST_USERNAME }}
-        password: ${{ secrets.HOST_PASSWORD }}
-        envs: CONTAINER_NAME, DOCKER_REG
-        script: |
-          if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
-          docker run --name $CONTAINER_NAME -d -p 4000:4000 $DOCKER_REG
+# deploy:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     env:
+#       CONTAINER_NAME: my-app
+#     steps:
+#     - name: deploy docker image
+#       uses: appleboy/ssh-action@xinxin22
+#       with:
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.HOST_USERNAME }}
+#         password: ${{ secrets.HOST_PASSWORD }}
+#         envs: CONTAINER_NAME, DOCKER_REG
+#         script: |
+#           if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
+#           docker run --name $CONTAINER_NAME -d -p 4000:4000 $DOCKER_REG
