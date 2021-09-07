@@ -33,7 +33,7 @@ jobs:
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: 
+      run: 
           echo "${{ github.event.commits[0].id }}"
     - name: 'docker login to harbor'
       run:
