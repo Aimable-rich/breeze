@@ -14,7 +14,7 @@ on:
     - cron: '30 10/2 * * *' 
 jobs:
   build: 
-   # runs-on: macos-11
+    #runs-on: macos-11
     runs-on: ubuntu-latest
     steps: 
     # - name: 'Checkout codes'
@@ -33,8 +33,8 @@ jobs:
       with: 
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
+        #password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
         script: | 
           cd ~/sina
           mkdir breeze
@@ -58,13 +58,12 @@ jobs:
     - name: 'Push docker image'
       run: 
           docker push $DOCKER_REG:${{ github.event.commits[0].id }}
-# deploy: 
-#     tag: 
+# deploy:
 #     runs-on: ubuntu-latest
 #     needs: build
 #     steps:
 #     - name: deploy docker image
-#       uses: appleboy/ssh-action@v0.0.7
+#       uses: appleboy/ssh-action@master
 #       with:
 #         host: ${{ secrets.PIPEHOST }}
 #         username: ${{ secrets.pipe_USERNAME }}
