@@ -20,7 +20,7 @@ jobs:
     uses: appleboy/ssh-action@master
       with:
         #USERNAME:Aimable-rich
-        #PASSWORD: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
+
         #PORT:22
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
