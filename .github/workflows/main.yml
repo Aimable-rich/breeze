@@ -1,7 +1,7 @@
 name: breeze test demo
 #on: [push, pull_request]
 env:
-  MY_SERVER_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }} # 服务器私钥
+  #MY_SERVER_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }} # 服务器私钥
   DOCKER_REG: registry.api.weibo.com/weibo_rd_if/breeze
   REG: registry.api.weibo.com
   CONTAINER_NAME: breeze
