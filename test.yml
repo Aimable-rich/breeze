@@ -14,8 +14,8 @@ jobs:
 
    runs-on: ubuntu-latest
   steps:
-  - name: 'Checkout codes'
-    uses: actions/checkout@v2
+  # - name: 'Checkout codes'
+  #   uses: actions/checkout@v2
   - name: executing remote ssh commands using password
     uses: appleboy/ssh-action@master
       with:
@@ -23,7 +23,13 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: |
+            cd /Users/xinxin22/sina
+            mkdir breeze
+            git init
+            git remote add origin https://github.com/Aimable-rich/breeze.git
+            git checkout main
+            git pull origin main
   - name: Dump GitHub context
     env:
       GITHUB_CONTEXT: ${{ toJSON(github) }}
