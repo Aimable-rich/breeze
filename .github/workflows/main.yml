@@ -13,7 +13,7 @@ on:
     #- cron:  '30 10/2 * * *' 
 jobs:
 
-  runs-on: ubuntu-latest
+  runs-on: macos-11
   steps:
   # - name: 'Checkout codes'
   #   uses: actions/checkout@v2
