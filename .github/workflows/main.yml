@@ -4,6 +4,7 @@ env:
   MY_SERVER_PRIVATE_KEY: ${{ secrets.MY_SERVER_PRIVATE_KEY }} # 服务器私钥
   DOCKER_REG: registry.api.weibo.com/weibo_rd_if/breeze
   REG: registry.api.weibo.com
+  CONTAINER_NAME: breeze
 on:
   push:
     branches:
@@ -56,6 +57,23 @@ jobs:
     - name: 'Push docker image'
       run: 
           docker push $DOCKER_REG:${{ github.event.commits[0].id }}
+# deploy: 
+#     tag: 
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#     - name: deploy docker image
+#       uses: appleboy/ssh-action@v0.0.7
+#       with:
+#         host: ${{ secrets.PIPEHOST }}
+#         username: ${{ secrets.pipe_USERNAME }}
+#         password: ${{ secrets.pipe_PASSWORD }}
+#         envs: CONTAINER_NAME, DOCKER_REG
+#     - name: docker run
+#       run:
+#         script: |
+#           if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
+#           docker run -d --net host -ti -v /data1/breeze/socks:/data1/breeze/socks -v /data1/breeze/snapshot:/data1/breeze/snapshot  -v /data1/breeze/logs:/data1/breeze/logs  --name $CONTAINER_NAME $DOCKER_REG:${{ github.event.commits[0].id }}
   # - name: Build the Docker image
   #     run:
   #       docker build . --file Dockerfile --tag image
@@ -72,20 +90,3 @@ jobs:
   #       docker tag image $DOCKER_REG:$VERSION
   #       docker push $DOCKER_REG:$VERSION
 
-
-# deploy:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     env:
-#       CONTAINER_NAME: my-app
-#     steps:
-#     - name: deploy docker image
-#       uses: appleboy/ssh-action@xinxin22
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.HOST_USERNAME }}
-#         password: ${{ secrets.HOST_PASSWORD }}
-#         envs: CONTAINER_NAME, DOCKER_REG
-#         script: |
-#           if [ $(docker ps -a | grep -c $CONTAINER_NAME) -gt 0 ]; then docker stop $CONTAINER_NAME;docker rm $CONTAINER_NAME;fi
-#           docker run --name $CONTAINER_NAME -d -p 4000:4000 $DOCKER_REG
