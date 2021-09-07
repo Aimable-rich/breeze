@@ -34,7 +34,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
+        #key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
         script: | 
           cd ~/sina
           mkdir breeze
