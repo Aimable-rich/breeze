@@ -11,7 +11,7 @@ on:
       - main    
   schedule:
    # - cron:  '30 4,6,8,10,12,14 * * *'
-    - cron: '30 10/2 * * *' 
+    - cron: '30 10-22 * * *' 
 jobs:
   build: 
     #runs-on: macos-11
