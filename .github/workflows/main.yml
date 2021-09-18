@@ -14,8 +14,8 @@ on:
     - cron: '30 10-22 * * *' 
 jobs:
   build: 
-    runs-on: macos-11
-    #runs-on: ubuntu-latest
+    #runs-on: macos-11
+    runs-on: ubuntu-latest
     steps: 
     # - name: 'Checkout codes'
     #   uses: actions/checkout@v2
@@ -29,22 +29,25 @@ jobs:
     #     TARGET: '~/sina'
     #     RGS: '-avzr --delete'
     - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.4
+      uses: AEnterprise/rsync-deploy@v1.0
+      #uses: appleboy/ssh-action@v0.1.4
       with: 
+        ARGS: -avz --delete --exclude='*.pyc'
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: “22”
+        SERVER_DESTINATION: /Users/xinxin22/sina/breeze
         #key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
         script: | 
           cd ~/sina
           mkdir breeze
           git init
           git remote add origin https://github.com/Aimable-rich/breeze.git
-          git checkout main
-          git fetch --all
-          git reset --hard origin/main
+          git checkout -b main
           cargo build --release
+#         git fetch --all
+#          git reset --hard origin/main
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
