@@ -14,8 +14,8 @@ on:
     - cron: '30 10-22 * * *' 
 jobs:
   build: 
-    #runs-on: macos-11
-    runs-on: ubuntu-latest
+    runs-on: macos-11
+    #runs-on: ubuntu-latest
     steps: 
     # - name: 'Checkout codes'
     #   uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
+        port: “22”
         #key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
         script: | 
           cd ~/sina
