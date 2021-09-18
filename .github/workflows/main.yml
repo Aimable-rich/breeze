@@ -35,10 +35,10 @@ jobs:
         ARGS: -avz --delete --exclude='*.pyc'
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        #password: ${{ secrets.PASSWORD }}
         port: “22”
         SERVER_DESTINATION: /Users/xinxin22/sina/breeze
-        #key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
+        key: ${{ secrets.MY_SERVER_PRIVATE_KEY }}
         script: | 
           cd ~/sina
           mkdir breeze
